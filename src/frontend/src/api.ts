@@ -1,12 +1,19 @@
 import { type ChatResponse, type ChatRequestOptions, type ChatResponseChunk } from './models.js';
 
-export const apiBaseUrl = import.meta.env.VITE_CHAT_API_URI || '';
+export const apiBaseUrl = import.meta.env.VITE_BACKEND_API_URI || '';
 
 export async function getCompletion(options: ChatRequestOptions, oneShot = false) {
   const apiUrl = options.apiUrl || apiBaseUrl;
 
   // TODO: complete call to Chat API here
   // const response =
+  const response = await fetch(`${apiUrl}/chat`, {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      messages: options.messages,
+    }),
+  });
 
   if (options.stream) {
     return getChunksFromResponse<ChatResponseChunk>(response as Response, options.chunkIntervalMs);
